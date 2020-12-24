@@ -15,9 +15,4 @@ public class App {
      public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
-
-    @RequestMapping("/")
-    public String hello() {
-        return "Hello Spring Boot!";
-    }
 }

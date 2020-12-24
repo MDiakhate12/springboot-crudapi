@@ -1,21 +1,40 @@
 package sn.diakhate.crudapi.compte;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import sn.diakhate.crudapi.agence.Agence;
+import sn.diakhate.crudapi.client.Client;
+
+@Entity
 public class Compte {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(name = "solde")
     private Double solde;
+    
+    @Column(name = "decouvert")
     private Double decouvert;
-    private String agentCode;
-    private int clientId;
+
+    @ManyToOne(targetEntity = Agence.class)
+    private Agence agence;
+
+    @ManyToOne(targetEntity = Client.class)
+    private Client client;
 
     public Compte() {}
 
-    public Compte(int id, Double solde, Double decouvert, String agentCode, int clientId) {
+    public Compte(int id, Double solde, Double decouvert) {
         this.id = id;
         this.solde = solde;
         this.decouvert = decouvert;
-        this.agentCode = agentCode;
-        this.clientId = clientId;
     }
 
     public int getId() {
@@ -42,28 +61,19 @@ public class Compte {
         this.decouvert = decouvert;
     }
 
-    public String getAgentCode() {
-        return agentCode;
+    public Agence getAgence() {
+        return agence;
     }
 
-    public void setAgenceCode(String agentCode) {
-        this.agentCode = agentCode;
+    public void setAgence(Agence agence) {
+        this.agence = agence;
     }
 
-    public int getClientId() {
-        return clientId;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public void setClient(Client client) {
+        this.client = client;
     }
-
-    @Override
-    public String toString() {
-        return "Compte [agentCode=" + agentCode + ", clientId=" + clientId + ", decouvert=" + decouvert + ", id="
-                + id + ", solde=" + solde + "]";
-    }
-
-    
-
 }
