@@ -3,6 +3,8 @@ package sn.diakhate.crudapi.agence;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AgenceController {
-    
+
     @Autowired
     private AgenceService agenceService;
 
-    @GetMapping({"/", "/agences"})
+    @GetMapping({ "/", "/agences" })
     public List<Agence> getAllAgences() {
         return agenceService.getAllAgences();
     }
@@ -27,9 +29,11 @@ public class AgenceController {
         return agenceService.getAgenceById(id);
     }
 
+    
     @PostMapping("/agences")
-    public void getAgenceById(@RequestBody Agence agence) {
-        agenceService.addAgence(agence);
+    public ResponseEntity<Agence> createAgence(@RequestBody Agence agence) {
+        Agence newAgence = agenceService.addAgence(agence);
+        return new ResponseEntity<>(newAgence, HttpStatus.CREATED);
     }
 
     @PutMapping("/agences/{id}")

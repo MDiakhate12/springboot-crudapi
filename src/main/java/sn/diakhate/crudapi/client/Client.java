@@ -25,7 +25,6 @@ public class Client {
     private String dateNaissance;
 
     
-
     public int getId() {
         return id;
     }

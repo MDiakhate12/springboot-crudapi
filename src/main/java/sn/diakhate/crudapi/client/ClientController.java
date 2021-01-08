@@ -3,6 +3,8 @@ package sn.diakhate.crudapi.client;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,8 +30,10 @@ public class ClientController {
     }
 
     @PostMapping("/clients")
-    public void getClientById(@RequestBody Client client) {
-        clientService.addClient(client);
+    public ResponseEntity<Client> getClientById(@RequestBody Client client) {
+        Client newClient = clientService.addClient(client);
+        return new ResponseEntity<>(newClient, HttpStatus.CREATED);
+
     }
 
     @PutMapping("/clients/{id}")

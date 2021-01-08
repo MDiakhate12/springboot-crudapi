@@ -3,6 +3,8 @@ package sn.diakhate.crudapi.compte;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,13 +39,16 @@ public class CompteController {
     }
 
     @PostMapping({"/clients/{idClient}/agences/{idAgence}/comptes", "/agences/{idAgence}/clients/{idClient}/comptes"})
-    public void getCompteById(@PathVariable int idClient, @PathVariable int idAgence, @RequestBody Compte compte) {
+    public ResponseEntity<Compte> getCompteById(@PathVariable int idClient, @PathVariable int idAgence, @RequestBody Compte compte) {
         Client client = clientService.getClientById(idClient);
         Agence agence = agenceService.getAgenceById(idAgence);
 
         compte.setClient(client);
         compte.setAgence(agence);
-        compteService.addCompte(compte);
+        Compte newCompte =  compteService.addCompte(compte);
+        
+        return new ResponseEntity<>(newCompte, HttpStatus.CREATED);
+
     }
 
     @PutMapping("/comptes/{id}")
@@ -59,6 +64,17 @@ public class CompteController {
     @DeleteMapping("/comptes/{id}")
     public void deleteCompte(@PathVariable int id) {
         compteService.deleteCompte(id);
+    }
+
+    
+    @GetMapping("/agences/{idAgence}/comptes")
+    public List<Compte> getComptesByAgenceId(@PathVariable int idAgence) {
+        return compteService.getComptesByAgenceId(idAgence);
+    }
+
+    @GetMapping("/clients/{idClient}/comptes")
+    public List<Compte> getComptesByClientId(@PathVariable int idClient) {
+        return compteService.getComptesByClientId(idClient);
     }
 
 }
